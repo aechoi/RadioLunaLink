@@ -24,6 +24,10 @@ class ModelConfig:
     name: str = "cnn_mlp"        # "cnn_mlp" | "vit"
     embed_dim: int = 256
     mlp_hidden: int = 512
+    # ViT-specific
+    vit_patch_size: int = 16     # pixels per patch (256/16 = 16×16 = 256 tokens)
+    vit_heads: int = 8
+    vit_layers: int = 6
 
 
 @dataclass
@@ -54,6 +58,9 @@ def parse_args() -> Config:
     p.add_argument("--model", default=cfg.model.name, choices=["cnn_mlp", "vit"])
     p.add_argument("--embed_dim", type=int, default=cfg.model.embed_dim)
     p.add_argument("--mlp_hidden", type=int, default=cfg.model.mlp_hidden)
+    p.add_argument("--vit_patch_size", type=int, default=cfg.model.vit_patch_size)
+    p.add_argument("--vit_heads", type=int, default=cfg.model.vit_heads)
+    p.add_argument("--vit_layers", type=int, default=cfg.model.vit_layers)
     p.add_argument("--batch_size", type=int, default=cfg.train.batch_size)
     p.add_argument("--lr", type=float, default=cfg.train.lr)
     p.add_argument("--epochs", type=int, default=cfg.train.epochs)
@@ -69,6 +76,9 @@ def parse_args() -> Config:
     cfg.model.name = args.model
     cfg.model.embed_dim = args.embed_dim
     cfg.model.mlp_hidden = args.mlp_hidden
+    cfg.model.vit_patch_size = args.vit_patch_size
+    cfg.model.vit_heads = args.vit_heads
+    cfg.model.vit_layers = args.vit_layers
     cfg.train.batch_size = args.batch_size
     cfg.train.lr = args.lr
     cfg.train.epochs = args.epochs

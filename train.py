@@ -8,11 +8,16 @@ from tqdm import tqdm
 from config import parse_args
 from data.dataset import RadioSignalDataset
 from models.cnn_mlp import CNNMLPModel
+from models.vit_attention import CoordCondViT
 
 
 def build_model(cfg):
     if cfg.model.name == "cnn_mlp":
         return CNNMLPModel(embed_dim=cfg.model.embed_dim, mlp_hidden=cfg.model.mlp_hidden)
+    if cfg.model.name == "vit":
+        return CoordCondViT(embed_dim=cfg.model.embed_dim, mlp_hidden=cfg.model.mlp_hidden,
+                            n_heads=cfg.model.vit_heads, n_layers=cfg.model.vit_layers,
+                            patch_size=cfg.model.vit_patch_size)
     raise ValueError(f"Unknown model: {cfg.model.name}")
 
 
